@@ -26,10 +26,11 @@ names(DRUG_HIRA)
 
 # source_code로 조인
 DRUG_HIRA$source_code <- as.character(DRUG_HIRA$source_code)
-UNION1 <- left_join(DRUG, DRUG_HIRA, by = "source_code")
+JOIN <- left_join(DRUG, DRUG_HIRA, by = "source_code")
 
 # DRUG 필요 열만 추출
-UNIONF <- UNION1[,c(2,3,4,5,6,7,8,9,10,11,20,24)]
+colnames(UNION1)
+UNIONF <- UNION1[,c("source_code","source_concept_id","source_vocabulary_id","source_code_description","target_concept_id","target_vocabulary_id",8,9,10,11,20,24)]
 
 # concept_id 변경없는 경우, NA로 통일
 UNIONF$final_concept_id = ifelse(
@@ -119,7 +120,7 @@ union1 <- left_join(conMap, concept, by = "target_concept_id")
 conMap$target_vocabulary_id <- union1$vocabulary_id
 
 # source_concept_class_id 추가
-conMap$source_concept_class_id <- union1$concept_class_id
+conMap$source_concept_class_id <- union$concept_class_id
 
 # 열 순서 변경(source_concept_class_id 맨 앞으로)
 conMap <- conMap %>% relocate(source_concept_class_id, .before = source_code) 
