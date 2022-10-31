@@ -45,6 +45,9 @@ unionI[unionI$source_concept_domain == "Metadata", "source_concept_domain"] = NA
 # 코드명 오름차순
 unionC <- unionC[order(unionC$source_code_description), ]
 
+CompleteData <- unionC
+IncompleteData <- unionI
+
 readr::write_tsv(x = CompleteData, file = file.path(dataFolder, "CompleteMapping/CompleteMapping2022.10.31.csv"),  na = "")
 readr::write_tsv(x = IncompleteData, file = file.path(dataFolder, "IncompleteMapping/IncompleteMapping2022.10.31.csv"),  na = "")
 
