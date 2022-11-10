@@ -27,18 +27,14 @@ DRUG_HIRA <- read.csv(
   header = TRUE, sep = ",")
 
 ## export the concept of OmopVoca ##
-concept <- read.csv(file.path(dataFolder, "OmopVoca2022.10.27/CONCEPT.csv"), 
+concept <- read.csv("C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/OmopVoca2022.10.27/CONCEPT.csv", 
                     quote = "",
                     row.names = NULL, sep = "\t") #,nrows=10
 
 # Join by source_code
-names(DRUG_HIRA)
-names(DRUG_HIRA) <- c("researcher","code","source_code","concept_id_hira", "local_name_hira", "concept_name_hira", "matching", "concept_id_kids", "concept_name_kids", "final_concept_id", "X", "X.1", "final_concept_name", "comment")
-
 DRUG_HIRA$source_code <- as.character(DRUG_HIRA$source_code)
 JOIN <- left_join(DRUG, DRUG_HIRA, by = "source_code")
-colnames(JOIN)
-JOIN <- JOIN[,c(1,2,3,4,5,6,7,8,9,10,11,20,24)]
+
 
 
 # seperate data to complete/incomplete data
