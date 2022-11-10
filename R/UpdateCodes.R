@@ -1,8 +1,8 @@
 library(dplyr)
 library(readr)
-dataFolder <- file.path(Sys.getenv("gitFolder"), "dr-you-group/OmopVocabulary/data")
+dataFolder <- file.path(Sys.getenv("gitFolder"), "dr-you-group/OmopVocabulary/data/drug")
 
-concept <- read.csv(file.path(dataFolder, "OmopVoca2022.10.27/CONCEPT.csv"), sep = "\t") #,nrows=10
+concept <- read.csv("C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/OmopVoca2022.10.27/CONCEPT.csv", sep = "\t" )#,nrows=10
 conMap <- readr::read_tsv(file = file.path(dataFolder, "SourceToConceptMap/SourceToConceptMap2022.10.31.csv"),  na = "")
 CompleteData <- readr::read_tsv(file = file.path(dataFolder, "CompleteMapping/CompleteMapping2022.10.31.csv"),  na = "")
 IncompleteData <- readr::read_tsv(file = file.path(dataFolder, "IncompleteMapping/IncompleteMapping2022.10.31.csv"),  na = "")
@@ -48,6 +48,11 @@ unionC <- unionC[order(unionC$source_code_description), ]
 CompleteData <- unionC
 IncompleteData <- unionI
 
+nrow(IncompleteData[IncompleteData$target_vocabulary_id == "ATC",])
+nrow(conMap[conMap$source_domain_id == "Drug",])
+sum(is.na(IncompleteData$target_vocabulary_id))
+
+write.csv(IncompleteData, file = file.path(dataFolder, "incompletedata"))
 readr::write_tsv(x = CompleteData, file = file.path(dataFolder, "CompleteMapping/CompleteMapping2022.10.31.csv"),  na = "")
 readr::write_tsv(x = IncompleteData, file = file.path(dataFolder, "IncompleteMapping/IncompleteMapping2022.10.31.csv"),  na = "")
 
