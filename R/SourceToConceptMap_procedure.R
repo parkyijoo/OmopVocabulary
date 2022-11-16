@@ -51,7 +51,7 @@ conMap$source_concept_class_id <- union$concept_class_id
 
 conMap <- conMap %>% relocate(source_domain_id, .before = source_vocabulary_id) 
 conMap <- conMap %>% relocate(source_code, .before = source_concept_id) 
-conMap <- conMap %>% relocate(target_code_description, .after = target_vocabulary_id) 
+conMap <- conMap %>% relocate(source_code_description, .after = source_vocabulary_id) 
 conMap <- conMap %>% relocate(source_concept_class_id, .after = source_vocabulary_id) 
 
 ## export the concept of OmopVoca ##
@@ -94,6 +94,6 @@ conMap <- conMap %>% relocate(target_domain_id, .before = target_vocabulary_id)
 conMap <- conMap %>% relocate(target_concept_class_id, .after = target_vocabulary_id)
 conMap <- conMap %>% relocate(target_code_description, .after = target_concept_class_id) 
 
-write.csv(conMap,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/procedure/SourceToConceptMap_procedure2022.11.16.csv", fileEncoding = "euc-kr", row.names = FALSE, na = "")
+readr::write_tsv(conMap,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/procedure/SourceToConceptMap_procedure2022.11.16", na = "")
 
 

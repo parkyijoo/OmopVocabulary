@@ -93,4 +93,4 @@ JOIN <- JOIN %>% relocate(target_concept_class_id, .before = target_code_descrip
 names(JOIN)
 JOIN <- JOIN[,-c(18)]
 
-write.csv(JOIN,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/drug/SourceToConceptMap_drug2022.11.16.csv", fileEncoding = "euc-kr", na = "")
+write.table(JOIN,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/drug/SourceToConceptMap_drug2022.11.16.csv", fileEncoding = "euc-kr", na = "" , sep = "\t")
