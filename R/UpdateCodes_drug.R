@@ -20,7 +20,7 @@ Sys.setlocale("LC_ALL", "C")
 Sys.setlocale("LC_ALL", "Korean.utf8")
 
 DRUG <- read.csv(
-  file = file.path(dataFolder, "SourceToConceptMap_drug2022.11.16.csv"),
+  file = file.path(dataFolder, "SourceToConceptMap_drug2022.11.17.csv"),
   header = TRUE, sep = ",", fileEncoding = "euc-kr")
 
 # seperate data to complete/incomplete data
@@ -55,7 +55,7 @@ IncompleteData$target_vocabulary_id = ifelse(
 
 IncompleteData <- na.omit(IncompleteData)
 
-write.csv(JOIN,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/drug/CompleteMapping_drug2022.11.16.csv", fileEncoding = "euc-kr", na = "")
-write.csv(JOIN,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/drug/IncompleteMapping_drug2022.11.16.csv", fileEncoding = "euc-kr", na = "")
+write.csv(JOIN,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/drug/CompleteMapping_drug2022.11.17.csv", fileEncoding = "euc-kr", na = "")
+write.csv(JOIN,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/drug/IncompleteMapping_drug2022.11.17.csv", fileEncoding = "euc-kr", na = "")
 
 

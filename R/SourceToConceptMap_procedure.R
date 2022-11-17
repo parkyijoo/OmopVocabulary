@@ -11,6 +11,7 @@ library(rlang)
 library(dplyr)
 library(openxlsx)
 library(readr)
+library(stringr)
 
 dataFolder <- file.path(Sys.getenv("gitFolder"), "dr-you-group/OmopVocabulary/data/procedure")
 
@@ -23,7 +24,7 @@ PROCEDURE <- read.csv(
   header = TRUE, sep = ",")
 
 ## export the concept of OmopVoca ##
-concept <- read.csv("C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/OmopVoca2022.10.27/CONCEPT.csv", 
+concept <- read.csv("C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/OmopVoca2022.11.13/CONCEPT.csv", 
                     quote = "",
                     row.names = NULL, sep = "\t") #,nrows=10
 
@@ -55,7 +56,7 @@ conMap <- conMap %>% relocate(source_code_description, .after = source_vocabular
 conMap <- conMap %>% relocate(source_concept_class_id, .after = source_vocabulary_id) 
 
 ## export the concept of OmopVoca ##
-synonym <- read.csv("C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/OmopVoca2022.10.27/CONCEPT_SYNONYM.csv", 
+synonym <- read.csv("C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/OmopVoca2022.11.13/CONCEPT_SYNONYM.csv", 
                     quote = "",
                     row.names = NULL, sep = "\t") #,nrows=10
 
@@ -94,6 +95,11 @@ conMap <- conMap %>% relocate(target_domain_id, .before = target_vocabulary_id)
 conMap <- conMap %>% relocate(target_concept_class_id, .after = target_vocabulary_id)
 conMap <- conMap %>% relocate(target_code_description, .after = target_concept_class_id) 
 
-readr::write_tsv(conMap,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/procedure/SourceToConceptMap_procedure2022.11.16", na = "")
+
+conMap$source_concept_synonym <- str_replace_all(conMap$source_concept_synonym, "," , ".")
+conMap$source_code_description <- str_replace_all(conMap$source_code_description, "," , ".")
+conMap$target_code_description <- str_replace_all(conMap$target_code_description, "," , ".")
+
+write.csv(conMap,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/procedure/SourceToConceptMap_procedure2022.11.17.csv", na = "", fileEncoding = "euc-kr", sep = ",")
 
 

@@ -14,17 +14,17 @@ library(readr)
 library(tidyverse)
 library(stringr)
 
-dataFolder <- file.path(Sys.getenv("gitFolder"), "dr-you-group/OmopVocabulary/data/procedure")
+dataFolder <- file.path(Sys.getenv("gitFolder"), "dr-you-group/OmopVocabulary/data/device")
 
 # 언어 삭제/변경(인코딩 오류)
 Sys.setlocale("LC_ALL", "C") 
 Sys.setlocale("LC_ALL", "Korean.utf8")
 
-procedure <- read.csv(file = file.path(dataFolder, "SourceToConceptMap_procedure2022.11.17.csv"), fileEncoding = "euc-kr", sep = ",")
+device <- read.csv(file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/device/SourceToConceptMap_device2022.11.17.csv", sep = ",", fileEncoding = "euc-kr")
 
 # seperate data to complete/incomplete data
-CompleteData <- procedure
-IncompleteData <- procedure
+CompleteData <- device
+IncompleteData <- device
 
 ## Complete ##
 CompleteData$target_vocabulary_id = ifelse(str_detect(CompleteData$target_vocabulary_id, "SNOMED"),
@@ -41,6 +41,11 @@ CompleteData$source_concept_class_id <-  ifelse(is.na(CompleteData$source_concep
 CompleteData$source_concept_synonym <-  ifelse(is.na(CompleteData$source_concept_synonym), 0, CompleteData$source_concept_synonym)
 CompleteData$source_code_description <-  ifelse(is.na(CompleteData$source_code_description), 0, CompleteData$source_code_description)
 CompleteData$target_code_description <-  ifelse(is.na(CompleteData$target_code_description), 0, CompleteData$target_code_description)
+CompleteData$target_concept_id <-  ifelse(is.na(CompleteData$target_concept_id), 0, CompleteData$target_concept_id)
+CompleteData$target_domain_id <-  ifelse(is.na(CompleteData$target_domain_id), 0, CompleteData$target_domain_id)
+CompleteData$target_concept_class_id <-  ifelse(is.na(CompleteData$target_concept_class_id), 0, CompleteData$target_concept_class_id)
+CompleteData$valid_end_date <-  ifelse(is.na(CompleteData$valid_end_date), 0, CompleteData$valid_end_date)
+
 
 
 
@@ -55,15 +60,16 @@ CompleteData$valid_start_date <- "2022-10-20"
 # valid_end_date 작성
 CompleteData$valid_end_date <- NA
 
-write.csv(CompleteData,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/procedure/CompleteMapping_procedure2022.11.17.csv", na = "", fileEncoding = "euc-kr", sep = ",")
+write.csv(CompleteData,file = file.path(dataFolder, "CompleteMapping_device2022.11.17.csv"),
+          na = "", fileEncoding = "euc-kr")
 
 ## Incomplete ##
 IncompleteData$target_vocabulary_id = ifelse(is.na(IncompleteData$target_vocabulary_id),
                                              0,
                                              IncompleteData$target_vocabulary_id)
 IncompleteData$target_vocabulary_id = ifelse(str_detect(IncompleteData$target_vocabulary_id, "SNOMED"),
-                                          NA,
-                                          IncompleteData$target_vocabulary_id
+                                             NA,
+                                             IncompleteData$target_vocabulary_id
 )
 IncompleteData$invalid_reason <-  0
 IncompleteData$source_code <-  ifelse(is.na(IncompleteData$source_code), 0, IncompleteData$source_code)
@@ -82,5 +88,6 @@ IncompleteData$valid_end_date <-  ifelse(is.na(IncompleteData$valid_end_date), 0
 
 IncompleteData <- na.omit(IncompleteData)
 
-write.csv(IncompleteData,file = "C:/Users/yijoo0320/git/dr-you-group/OmopVocabulary/data/procedure/IncompleteMapping_procedure2022.11.17.csv", na = "", fileEncoding = "euc-kr")
 
+write.csv(IncompleteData,file = file.path(dataFolder, "IncompleteMapping_device2022.11.17.csv"), 
+          na = "", fileEncoding = "euc-kr")
